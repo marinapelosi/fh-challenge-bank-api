@@ -1,61 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Hello World!
+Hi, my name is Marina and I'm thankful to be here making this challenge. This is the documentation for the developed software, and instructions for testing.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Normally, I use to make english modeling, code and documentation. I have no problem in make this in portuguese, if needed.
 
-## About Laravel
+Let's go!
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
+# FH Challenge Bank API REST
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Technical Information
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This REST API was developed following the [JSON API specification](https://jsonapi.org/) and the Laravel Version is 8.x (latest)
 
-## Learning Laravel
+## Challenge Endpoints
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+|Method |Route Name	| Endpoint|Requires Auth? |Description |TDD functions (tests/Unit)
+|--- |--- |--- |--- |--- |---
+|GET | Check Account Balance | api/check-balance/ {accountNumber} |No | Returns how much money the account has| testCheckBalance() 
+|GET | Move Account Balance | api/move-account-balance/{accountNumber}/{amountMoney}/{moveType} |No | The magic happens here. You can get money from the account balance or put more money there. | testGettingMoney(), testGettingMoneyButDontHaveEnough(), testPuttingMoney(), testMoveValidation(), testInvalidAccountInDatabase()
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+### To test the endpoints you must use the fake data persisted via seeders and factories
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+|User        |Account Number | Type Field
+|---         |---            |---
+|Random      |889955-1       | String                         
+|Random      |435567-2       | String 
 
-### Premium Partners
+> Type Fields
+- About the Account Number type field. Yes, it's a string. So you must know that you need put the *-* normally as you see on the table above.
+- About the value to inform the Amount Money you must use the type decimal.
+- About the Move Type value you must choose sacar or depositar. Don't worry, if you don't put it in lowercase, the API sees and change it for ya.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+Examples of requests to endpoints:
 
-## Contributing
+``` 
+{{url_api}}api/check-balance/889955-1 // Case of valid account, as informed on the account table above
+``` 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+``` 
+{{url_api}}api/check-balance/883 // To test some validation
+``` 
 
-## Code of Conduct
+``` 
+{{url_api}}api/move-account-balance/889955-1/150.52/sacar // Case of get money from the account balance
+``` 
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+``` 
+{{url_api}}api/move-account-balance/889955-1/150.5a/sacar // To test some validation
+``` 
 
-## Security Vulnerabilities
+``` 
+{{url_api}}api/move-account-balance/889955-1/150.5a/DEPOSITAR // To test some validation
+``` 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+``` 
+{{url_api}}api/move-account-balance/889955-1/150.5a/other // To test some validation
+``` 
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+### Error List
+
+
+On your way testing, maybe you could see some errors. There is your help to solve them!
+
+|Situation                       |Error Message	                        | Solution
+|---                             |---                                      |---
+|Any kind of  | The :attribute field is required| You must put some value on the endpoint parameter because is mandatory to continue with the operation
+|When trying check some balance  |Could not bring this account balance. Please, check if the account number is correct                | Just check the account number and try it again
+|When trying move some account balance  | Could not make any movimentation on this account balance. Please, check if the account number is correct.| The type fields are valid (account, amountmoney and moveType), but it isn't a valid account in our database. Just check the account number and try it again
+|When trying move some account balance  |  Sorry! The money you want is not how much you have | We can't give you nonexistent money, maybe in the future this API could lend you some. But just for now you can check your account and see the money you have enough to request or you also can put more money using the *depositar* moveType in the same endpoint.
+|When trying move some account balance  | The Move Type must be sacar or depositar. Please, check our documentation | You must put the moveType as we informed here on the documentation. The allowed values are sacar or depositar. 
+
+# Environment
+You can see the environment on this repository: https://github.com/marinapelosi/fh-challenge-bank
