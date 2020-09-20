@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/* REST Challenge Bank */
+Route::get('check-balance/{accountNumber}', 'App\Http\Controllers\AccountController@showCostumerBalance')->name('check-balance');
