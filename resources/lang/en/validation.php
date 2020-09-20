@@ -149,6 +149,7 @@ return [
     'attributes' => [
         'account'     => 'Account',
         'amountMoney' => 'Amount Money',
+        'moveType'    => 'Move Type'
     ],
 
 ];

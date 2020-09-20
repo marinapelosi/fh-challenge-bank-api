@@ -20,17 +20,18 @@ class AccountController extends Controller
         }        
     }
 
-    public function getMoneyFromTheAccountBalance($accountNumber, $amountMoney)
+    public function moveAccountBalance($accountNumber, $amountMoney, $moveType)
     {
         $toValidate = [
             'account'     => $accountNumber,
-            'amountMoney' => $amountMoney
+            'amountMoney' => $amountMoney,
+            'moveType'    => $moveType
         ];
 
         $validation = Account::validate($toValidate);
 
         if (isset($validation['status'])) {
-            return Response::json(['status' => true, 'message' => __('account.validateFailed'), 'data' => $validation['errors']], 400);            
+            return Response::json(['status' => false, 'message' => __('account.validateFailed'), 'data' => $validation['errors']], 400);            
         }
 
         DB::beginTransaction();
@@ -38,15 +39,24 @@ class AccountController extends Controller
         try {            
             $account = Account::with(['agency'])->where('number', $accountNumber)->first();
             
-            if($account->balance >= $amountMoney){
+            /* GET MONEY */
+            if(strtolower($moveType) == 'sacar' && $account->balance >= $amountMoney){
                 $account->balance = $account->balance - $amountMoney;
                 $account->update();                
                 DB::commit();
                 return Response::json(['status' => true, 'message' => __('account.getMoneySuccess'), 'data' => ['balance' => $account->balance]], 200);
             }                   
+
+            /* PUT MONEY */
+            if(strtolower($moveType) == 'depositar'){
+                $account->balance = $account->balance + $amountMoney;
+                $account->update();                
+                DB::commit();
+                return Response::json(['status' => true, 'message' => __('account.depositMoneySuccess'), 'data' => ['balance' => $account->balance]], 200);
+            }
                  
             DB::rollback();
-            return Response::json(['status' => false, 'message' => __('account.balanceLessFailed'), 'data' => ['balance' => $account->balance]], 200);
+            return Response::json(['status' => false, 'message' => __('account.balanceLessFailed'), 'data' => ['balance' => $account->balance]], 400);
 
         } catch (\Throwable $th) {  
             DB::rollback();                

@@ -25,11 +25,16 @@ class Account extends Model
         $validator = Validator::make($params, [
             'account'     => 'required',
             'amountMoney' => 'required|numeric',
+            'moveType'    => 'required',
         ]);
 
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
         }        
+
+        if(isset($params['moveType']) && (strtolower($params['moveType']) != 'sacar' && strtolower($params['moveType']) != 'depositar')){
+            array_push($errors,__('account.moveTypeInformedFailed'));            
+        }
 
         if(!empty($errors)){
             return [
