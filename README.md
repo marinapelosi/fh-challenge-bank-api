@@ -10,15 +10,15 @@ Let's go!
 
 ## Technical Information
 
-This REST API was developed following the [JSON API specification](https://jsonapi.org/) and the Laravel Version is 8.x (latest)
+This REST API was developed following the [JSON API specification](https://jsonapi.org/) and the Laravel Version is 8.0.4 (latest)
+<img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version">
 
 ## Challenge Endpoints
 
 |Method |Route Name	| Endpoint|Requires Auth? |Description |TDD functions (tests/Unit)
 |--- |--- |--- |--- |--- |---
-|GET | Check Account Balance | api/check-balance/ {accountNumber} |No | Returns how much money the account has| testCheckBalance() 
+|GET | Check Account Balance | api/check-balance/{accountNumber} |No | Returns how much money the account has| testCheckBalance() 
 |GET | Move Account Balance | api/move-account-balance/{accountNumber}/{amountMoney}/{moveType} |No | The magic happens here. You can get money from the account balance or put more money there. | testGettingMoney(), testGettingMoneyButDontHaveEnough(), testPuttingMoney(), testMoveValidation(), testInvalidAccountInDatabase()
-
 
 ### To test the endpoints you must use the fake data persisted via seeders and factories
 
@@ -27,12 +27,17 @@ This REST API was developed following the [JSON API specification](https://jsona
 |Random      |889955-1       | String                         
 |Random      |435567-2       | String 
 
-> Type Fields
+### Type Fields
 - About the Account Number type field. Yes, it's a string. So you must know that you need put the *-* normally as you see on the table above.
 - About the value to inform the Amount Money you must use the type decimal.
 - About the Move Type value you must choose sacar or depositar. Don't worry, if you don't put it in lowercase, the API sees and change it for ya.
 
-Examples of requests to endpoints:
+### Here you can see the basic DER Model
+
+<img src="https://tech.marinapelosi.com/fh-challenge-bank/20200920-lastversion-challengebank.png" alt="TDD img">
+
+
+### Examples of requests to endpoints:
 
 ``` 
 {{url_api}}api/check-balance/889955-1 // Case of valid account, as informed on the account table above
@@ -76,3 +81,5 @@ On your way testing, maybe you could see some errors. There is your help to solv
 
 # Environment
 You can see the environment on this repository: https://github.com/marinapelosi/fh-challenge-bank
+
+And the API URL working on Digital Ocean: http://157.245.88.105:7778/
