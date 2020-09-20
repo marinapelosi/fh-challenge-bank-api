@@ -19,12 +19,32 @@ This REST API was developed following the [JSON API specification](https://jsona
 |GET | Check Account Balance | api/check-balance/ {accountNumber} |No |No |No| Returns how much money the account has| testCheckBalance (tests/Unit)
 
 
-## To test the endpoints you must use the fake data persisted via seeders and factories
+### To test the endpoints you must use the fake data persisted via seeders and factories
 
-|User        |Account Number
-|---         |---            
-|Random      |889955-1                                 
-|Random      |435567-2
+|User        |Account Number | Type Field
+|---         |---            |---
+|Random      |889955-1       | String                         
+|Random      |435567-2       | String 
+
+>About the value to inform the amount money you must use the type decimal.
+
+Examples of requests to endpoints:
+
+``` 
+{{url_api}}api/check-balance/889955-1 // Case of valid account, as informed
+``` 
+
+``` 
+{{url_api}}api/check-balance/883 // To test some validation
+``` 
+
+``` 
+{{url_api}}api/get-from-balance/889955-1/150.52 // Case of get money from the account balance
+``` 
+
+``` 
+{{url_api}}api/get-from-balance/889955-1/150.5a // To test some validation
+``` 
 
 ---
 

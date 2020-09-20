@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 /* REST Challenge Bank */
 Route::get('check-balance/{accountNumber}', 'App\Http\Controllers\AccountController@showCostumerBalance')->name('check-balance');
+Route::get('get-from-balance/{accountNumber}/{amountMoney}', 'App\Http\Controllers\AccountController@getMoneyFromTheAccountBalance')->name('get-from-balance');
