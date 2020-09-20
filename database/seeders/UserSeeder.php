@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Models\Agency;
+use App\Models\User;
 
-class AgencySeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class AgencySeeder extends Seeder
      */
     public function run()
     {
-        Agency::factory(1)->create();
+        User::factory(2)->create();
     }
 }

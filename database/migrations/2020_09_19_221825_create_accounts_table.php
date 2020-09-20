@@ -18,11 +18,9 @@ class CreateAccountsTable extends Migration
             $table->unsignedBigInteger('agency_id')->index();
             $table->unsignedBigInteger('user_id')->index();
             $table->string('number')->unique();
-            $table->decimal('balance', 8, 2);           
-            
+            $table->decimal('balance', 8, 2);                       
             $table->timestamps();
             $table->softDeletes();
-
             $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

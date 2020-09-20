@@ -23,7 +23,8 @@ class AgencyFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'number' => '0001',
+            'name'   => 'Agência Teste'
         ];
     }
 }

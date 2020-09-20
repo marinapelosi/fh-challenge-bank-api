@@ -46,7 +46,7 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        //
+        return response()->success( Account::with(['agency'])->where('status', $account->number)->first() );
     }
 
     /**
